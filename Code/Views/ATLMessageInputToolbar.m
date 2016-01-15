@@ -371,21 +371,23 @@ static CGFloat const ATLButtonHeight = 28.0f;
 
 - (void)configureRightAccessoryButtonState
 {
-    if (self.textInputView.text.length) {
-        [self configureRightAccessoryButtonAsSend];
-        self.rightAccessoryButton.enabled = YES;
-    } else {
-        if (self.displaysRightAccessoryImage) {
-            [self configureRightAccessoryButtonAsCustomAction];
+    if (![self.inputToolBarDelegate respondsToSelector:@selector(messageInputToolbar:configureStateForTextInputView:)] || [self.inputToolBarDelegate messageInputToolbar:self configureStateForTextInputView:self.textInputView]) {
+        if (self.textInputView.text.length) {
+            [self configureRightAccessoryButtonForText];
             self.rightAccessoryButton.enabled = YES;
         } else {
-            [self configureRightAccessoryButtonAsSend];
-            self.rightAccessoryButton.enabled = NO;
+            if (self.displaysRightAccessoryImage) {
+                [self configureRightAccessoryButtonForImage];
+                self.rightAccessoryButton.enabled = YES;
+            } else {
+                [self configureRightAccessoryButtonForText];
+                self.rightAccessoryButton.enabled = NO;
+            }
         }
     }
 }
 
-- (void)configureRightAccessoryButtonAsSend
+- (void)configureRightAccessoryButtonForText
 {
     self.rightAccessoryButton.accessibilityLabel = ATLMessageInputToolbarSendButton;
     [self.rightAccessoryButton setImage:nil forState:UIControlStateNormal];
@@ -401,7 +403,7 @@ static CGFloat const ATLButtonHeight = 28.0f;
     }
 }
 
-- (void)configureRightAccessoryButtonAsCustomAction
+- (void)configureRightAccessoryButtonForImage
 {
     self.rightAccessoryButton.enabled = YES;
     self.rightAccessoryButton.accessibilityLabel = ATLMessageInputToolbarLocationButton;

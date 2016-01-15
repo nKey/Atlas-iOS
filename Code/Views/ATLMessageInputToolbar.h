@@ -50,6 +50,13 @@ extern NSString *const ATLMessageInputToolbarAccessibilityLabel;
 @optional
 
 /**
+ @abstract Implement this method to customize toolbar behavior and appearance. It is called on setup, when textInputView value changes and when media is attached.
+ @discussion If not implemented or NO is returned, default behavior is to configure right button with atl.messagetoolbar.send.key label if textInputView has text value or image attached, or show button with rightAccessoryImage otherwise.
+ @result Returns YES if the default behavior is wanted, NO otherwise.
+ */
+- (BOOL)messageInputToolbar:(ATLMessageInputToolbar *)messageInputToolbar configureStateForTextInputView:(ATLMessageComposeTextView *)textInputView;
+
+/**
  @abstract Notifies the receiver that typing has occurred.
  */
 - (void)messageInputToolbarDidType:(ATLMessageInputToolbar *)messageInputToolbar;
@@ -180,17 +187,5 @@ extern NSString *const ATLMessageInputToolbarAccessibilityLabel;
  to support UISplitViewController usage.  This property should only be set when subclassing `ATLMessageInputToolbar`.
  */
 @property (nonatomic, weak) UIViewController *containerViewController;
-
-/**
- @abstract Configures rightAccessoryButton as Send button on setup, when textInputView value changes and when media is attached. Override this method to customize right button Send appearance.
- @default Configures button with atl.messagetoolbar.send.key label if textInputView has text value or image attached.
- */
-- (void)configureRightAccessoryButtonAsSend;
-
-/**
- @abstract Configures rightAccessoryButton on setup, when textInputView value is empty and displaysRightAccessoryImage is true. Override this method to customize right button behavior and appearance in this state.
- @default Configures button with rightAccessoryImage if textInputView has text value or image attached and displaysRightAccessoryImage is true.
- */
-- (void)configureRightAccessoryButtonAsCustomAction;
 
 @end
