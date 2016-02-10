@@ -371,22 +371,32 @@ static CGFloat const ATLButtonHeight = 28.0f;
 
 - (void)configureRightAccessoryButtonState
 {
-    if (![self.inputToolBarDelegate respondsToSelector:@selector(messageInputToolbar:configureStateForTextInputView:)] || [self.inputToolBarDelegate messageInputToolbar:self configureStateForTextInputView:self.textInputView]) {
-        if (self.textInputView.text.length) {
-            [self configureRightAccessoryButtonForText];
-            self.rightAccessoryButton.enabled = YES;
-        } else {
-            if (self.displaysRightAccessoryImage) {
-                [self configureRightAccessoryButtonForImage];
-                self.rightAccessoryButton.enabled = YES;
-            } else {
-                [self configureRightAccessoryButtonForText];
-                self.rightAccessoryButton.enabled = NO;
-            }
+    if ([self.inputToolBarDelegate respondsToSelector:@selector(messageInputToolbarConfigureState:)]) {
+        BOOL shouldDefaultConfiguration = [self.inputToolBarDelegate messageInputToolbarConfigureState:self];
+        if (shouldDefaultConfiguration) {
+            [self defaultRightButtonConfiguration];
         }
+    } else {
+        [self defaultRightButtonConfiguration];
     }
 }
 
+- (void)defaultRightButtonConfiguration
+{
+    if (self.textInputView.text.length) {
+        [self configureRightAccessoryButtonForText];
+        self.rightAccessoryButton.enabled = YES;
+    } else {
+        if (self.displaysRightAccessoryImage) {
+            [self configureRightAccessoryButtonForImage];
+            self.rightAccessoryButton.enabled = YES;
+        } else {
+            [self configureRightAccessoryButtonForText];
+            self.rightAccessoryButton.enabled = NO;
+        }
+    }
+}
+        
 - (void)configureRightAccessoryButtonForText
 {
     self.rightAccessoryButton.accessibilityLabel = ATLMessageInputToolbarSendButton;
