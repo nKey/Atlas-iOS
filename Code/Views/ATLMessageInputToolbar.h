@@ -51,10 +51,10 @@ extern NSString *const ATLMessageInputToolbarAccessibilityLabel;
 
 /**
  @abstract Implement this method to customize toolbar behavior and appearance. It is called on setup, when textInputView value changes and when media is attached.
- @discussion If not implemented or NO is returned, default behavior is to configure right button with atl.messagetoolbar.send.key label if textInputView has text value or image attached, or show button with rightAccessoryImage otherwise.
+ @discussion If not implemented or YES is returned, default behavior is to configure right button with text label if textInputView has text value or image attached, or show button with rightAccessoryImage otherwise.
  @result Returns YES if the default behavior is wanted, NO otherwise.
  */
-- (BOOL)messageInputToolbar:(ATLMessageInputToolbar *)messageInputToolbar configureStateForTextInputView:(ATLMessageComposeTextView *)textInputView;
+- (BOOL)messageInputToolbarConfigureState:(ATLMessageInputToolbar *)messageInputToolbar;
 
 /**
  @abstract Notifies the receiver that typing has occurred.
