@@ -55,7 +55,7 @@
 @implementation ATLConversationViewController
 
 static NSInteger const ATLMoreMessagesSection = 0;
-static NSString *const ATLPushNotificationSoundName = @"layerbell.caf";
+static NSString *const ATLPushNotificationSoundName = @"she_knows.caf";
 static NSString *const ATLDefaultPushAlertGIF = @"sent you a GIF.";
 static NSString *const ATLDefaultPushAlertImage = @"sent you a photo.";
 static NSString *const ATLDefaultPushAlertLocation = @"sent you a location.";
