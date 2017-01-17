@@ -82,7 +82,7 @@ static float const ATLMediaAttachmentDefaultThumbnailJPEGCompression = 0.5f;
 
 @property (nonatomic) NSURL *inputAssetURL;
 
-- (instancetype)initWithAssetURL:(NSURL *)assetURL thumbnailSize:(NSUInteger)thumbnailSize;
+- (nullable instancetype)initWithAssetURL:(NSURL *)assetURL thumbnailSize:(NSUInteger)thumbnailSize;
 - (instancetype)initWithFileURL:(NSURL *)fileURL thumbnailSize:(NSUInteger)thumbnailSize;
 
 @end
@@ -428,7 +428,7 @@ static float const ATLMediaAttachmentDefaultThumbnailJPEGCompression = 0.5f;
 
 #pragma mark - Initializers
 
-+ (instancetype)mediaAttachmentWithAssetURL:(NSURL *)assetURL thumbnailSize:(NSUInteger)thumbnailSize
++ (nullable instancetype)mediaAttachmentWithAssetURL:(NSURL *)assetURL thumbnailSize:(NSUInteger)thumbnailSize
 {
     return [[ATLAssetMediaAttachment alloc] initWithAssetURL:assetURL thumbnailSize:thumbnailSize];
 }
@@ -554,10 +554,7 @@ UIImage *ATLMediaAttachmentGenerateThumbnailFromVideoFileURL(NSURL *videoFileURL
     assetImageGenerator.appliesPreferredTrackTransform = YES;
     NSError *error = NULL;
     AVAssetTrack *videoAssetTrack = [[URLasset tracksWithMediaType:AVMediaTypeVideo] firstObject];
-    CMTime time;
-    if (videoAssetTrack) {
-        time = CMTimeMake(0, videoAssetTrack.nominalFrameRate);
-    }
+    CMTime time = CMTimeMake(0, videoAssetTrack.nominalFrameRate);
     CGImageRef imageRef = [assetImageGenerator copyCGImageAtTime:time actualTime:NULL error:&error];
     if (error) {
         NSLog(@"Failed to create thumbnail!");
